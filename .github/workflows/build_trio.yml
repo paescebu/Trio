@@ -224,6 +224,8 @@ jobs:
         run: sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService || true
       - name: Install iOS platform
         run: sudo xcodebuild -downloadPlatform iOS
+      - name: Install watchOS platform
+        run: sudo xcodebuild -downloadPlatform watchOS
       - name: Checkout Repo for syncing
         if: |
           needs.check_alive_and_permissions.outputs.WORKFLOW_PERMISSION == 'true' &&
