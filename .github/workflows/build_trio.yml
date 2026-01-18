@@ -216,14 +216,16 @@ jobs:
         (vars.SCHEDULED_SYNC != 'false' && needs.check_latest_from_upstream.outputs.NEW_COMMITS == 'true' )
       )
     steps:
-      - name: Select Xcode version
-        run: "sudo xcode-select --switch /Applications/Xcode_16.3.app/Contents/Developer"
-      - name: Xcode first launch setup
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.3.app
+      - name: Xcode first launch
         run: sudo xcodebuild -runFirstLaunch
-      - name: Restart CoreSimulator
-        run: sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService || true
       - name: Force simulator runtime recache
         run: xcrun simctl list
+      - name: Install iOS platform
+        run: sudo xcodebuild -downloadPlatform iOS
+      - name: Install watchOS platform
+        run: sudo xcodebuild -downloadPlatform watchOS
       - name: Checkout Repo for syncing
         if: |
           needs.check_alive_and_permissions.outputs.WORKFLOW_PERMISSION == 'true' &&
