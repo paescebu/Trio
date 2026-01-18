@@ -218,6 +218,10 @@ jobs:
     steps:
       - name: Select Xcode version
         run: "sudo xcode-select --switch /Applications/Xcode_16.3.app/Contents/Developer"
+      - name: Xcode first launch setup
+        run: sudo xcodebuild -runFirstLaunch
+      - name: Restart CoreSimulator
+        run: sudo killall -9 com.apple.CoreSimulator.CoreSimulatorService || true
       - name: Install iOS platform
         run: sudo xcodebuild -downloadPlatform iOS
       - name: Checkout Repo for syncing
